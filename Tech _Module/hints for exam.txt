@@ -1,0 +1,134 @@
+var users = new Dictionary<string,Dictionary<string,int>>():
+foreach(var user in users)
+{
+Console.WriteLine($"{item.Key} -> {item.Value.Values.Sum()}");
+}
+
+С първото "Value" се обръщаш към вложения речник, със "Values" към стойностите на вложения речник.
+.........................................
+
+regex за задача Chore Wars
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace ConsoleApp178
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Regex dishes = new Regex(@"<([\da-z]+)>");
+            Regex house = new Regex(@"\[([\dA-Z]+)\]");
+            Regex laundry = new Regex(@"{([\W\w\d]+)}");
+
+            int dishesTime = 0;
+            int houseTime = 0;
+            int laundryTime = 0;
+
+            Regex numbers = new Regex(@"[\d]");
+
+            while (true)
+            {
+                string command = Console.ReadLine();
+                if (command == "wife is happy")
+                {
+                    break;
+                }
+                var disheshMatch = dishes.Match(command);
+                var houseMatch = house.Match(command);
+                var laundryMatch = laundry.Match(command);
+                if (disheshMatch.Success)
+                {
+                    var time = numbers.Matches(disheshMatch.Groups[0].Value);
+                    foreach (var item in time)
+                    {
+                        dishesTime += int.Parse(item.ToString());
+                    }
+                    
+                }
+                if (houseMatch.Success)
+                {
+                    var time = numbers.Matches(houseMatch.Groups[0].Value);
+                    foreach (var item in time)
+                    {
+                        houseTime += int.Parse(item.ToString());
+                    }
+                }
+                if (laundryMatch.Success)
+                {
+                    var time = numbers.Matches(laundryMatch.Groups[0].Value);
+                    foreach (var item in time)
+                    {
+                        laundryTime += int.Parse(item.ToString());
+                    }
+                }
+            }
+            Console.WriteLine($"Doing the dishes - {dishesTime} min.");
+            Console.WriteLine($"Cleaning the house - {houseTime} min.");
+            Console.WriteLine($"Doing the laundry - {laundryTime} min.");
+            Console.WriteLine($"Total - {dishesTime + houseTime + laundryTime} min.");
+
+
+
+        }
+    }
+}
+
+
+
+------------------------------------------
+
+03.PostOffice от Programming Fundamentals Retake Exam - 27 August 2018 Part II
+
+using System;
+using System.Text.RegularExpressions;
+ 
+namespace PostOffice
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] input = Console.ReadLine().Split('|');
+ 
+            string firstPart = input[0];
+            string secondPart = input[1];
+            string thirdPart = input[2];
+ 
+            string firstPattern = @"([#$%*&])(?<capitals>[A-Z]+)(\1)";
+            Match firstMatch = Regex.Match(firstPart, firstPattern);
+            string capitals = firstMatch.Groups["capitals"].Value;
+ 
+            for (int index = 0; index < capitals.Length; index++)
+            {
+                char startLetter = capitals[index];
+                int ASCIIcode = startLetter;
+ 
+                string secondPattern = $@"{ASCIIcode}:(?<length>[0-9][0-9])";
+                Match secondMatch = Regex.Match(secondPart, secondPattern);
+                int length = int.Parse(secondMatch.Groups["length"].Value);
+ 
+                string thirdPattern = $@"(?<=\s|^){startLetter}[^\s]{{{length}}}(?=\s|$)";
+                Match thirdMatch = Regex.Match(thirdPart, thirdPattern);
+                string word = thirdMatch.ToString();
+ 
+                Console.WriteLine(word);
+            }
+        }
+    }
+}
+
+------------------------------
+
+ctrl+F5 в браузъра и ще ти изчисти кеша
+
+
+----------------------------
+
+pass:
+readyfortrip
